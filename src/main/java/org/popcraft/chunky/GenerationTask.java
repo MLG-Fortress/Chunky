@@ -109,15 +109,6 @@ public class GenerationTask implements Runnable {
                 working.release();
                 printUpdate(world, chunk.getX(), chunk.getZ());
             });
-            try
-            {
-                Thread.sleep(5000L); //wait 5 seconds before doing another one
-            }
-            catch (InterruptedException e)
-            {
-                stop(cancelled);
-                break;
-            }
         }
         if (stopped) {
             chunky.getServer().getConsoleSender().sendMessage(chunky.message("task_stopped", chunky.message("prefix"), world.getName()));
