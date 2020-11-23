@@ -111,7 +111,7 @@ public class GenerationTask implements Runnable {
             });
             try
             {
-                Thread.sleep(5000L); //wait 5 seconds before doing another one
+                Thread.sleep(10000L); //wait 10 seconds before doing another one
             }
             catch (InterruptedException e)
             {
