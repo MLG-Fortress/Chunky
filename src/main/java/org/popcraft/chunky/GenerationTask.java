@@ -89,6 +89,7 @@ public class GenerationTask implements Runnable {
     public void run() {
         final String poolThreadName = Thread.currentThread().getName();
         Thread.currentThread().setName(String.format("Chunky-%s Thread", world.getName()));
+        final boolean fast = Runtime.getRuntime().maxMemory() > 662700032L;
         final Semaphore working = new Semaphore(1);
         startTime.set(System.currentTimeMillis());
         while (!stopped && chunkIterator.hasNext()) {
@@ -109,6 +110,8 @@ public class GenerationTask implements Runnable {
                 working.release();
                 printUpdate(world, chunk.getX(), chunk.getZ());
             });
+            if (fast)
+                continue;
             try
             {
                 Thread.sleep(10000L); //wait 10 seconds before doing another one
