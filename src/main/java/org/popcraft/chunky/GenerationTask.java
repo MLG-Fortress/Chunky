@@ -90,7 +90,7 @@ public class GenerationTask implements Runnable {
         final String poolThreadName = Thread.currentThread().getName();
         Thread.currentThread().setName(String.format("Chunky-%s Thread", world.getName()));
         final boolean fast = Runtime.getRuntime().maxMemory() > 662700032L;
-        final Semaphore working = new Semaphore(1);
+        final Semaphore working = new Semaphore(fast ? 50 : 1);
         startTime.set(System.currentTimeMillis());
         while (!stopped && chunkIterator.hasNext()) {
             ChunkCoordinate chunkCoord = chunkIterator.next();
