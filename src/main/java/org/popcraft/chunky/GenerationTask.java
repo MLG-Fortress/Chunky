@@ -100,6 +100,16 @@ public class GenerationTask implements Runnable {
                 printUpdate(world, chunkCoord.x, chunkCoord.z);
                 continue;
             }
+            if (!fast)
+                try
+                {
+                    Thread.sleep(10000L); //wait 10 seconds before doing another one
+                }
+                catch (InterruptedException e)
+                {
+                    stop(cancelled);
+                    break;
+                }
             try {
                 working.acquire();
             } catch (InterruptedException e) {
@@ -110,17 +120,6 @@ public class GenerationTask implements Runnable {
                 working.release();
                 printUpdate(world, chunk.getX(), chunk.getZ());
             });
-            if (fast)
-                continue;
-            try
-            {
-                Thread.sleep(10000L); //wait 10 seconds before doing another one
-            }
-            catch (InterruptedException e)
-            {
-                stop(cancelled);
-                break;
-            }
         }
         if (stopped) {
             chunky.getServer().getConsoleSender().sendMessage(chunky.message("task_stopped", chunky.message("prefix"), world.getName()));
