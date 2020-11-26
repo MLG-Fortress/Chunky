@@ -106,18 +106,18 @@ public class GenerationTask implements Runnable {
                 stop(cancelled);
                 break;
             }
+            if (!fast)
+                try
+                {
+                    chunky.getServer().getConsoleSender().sendMessage("Napping...");
+                    Thread.sleep(10000L); //wait 10 seconds before doing another one
+                    chunky.getServer().getConsoleSender().sendMessage("...That was nice sleep, ready to work again!");
+                }
+                catch (InterruptedException e)
+                {
+                    stop(cancelled);
+                }
             PaperLib.getChunkAtAsync(world, chunkCoord.x, chunkCoord.z).thenAccept(chunk -> {
-                if (!fast)
-                    try
-                    {
-                        chunky.getServer().getConsoleSender().sendMessage("Napping...");
-                        Thread.sleep(10000L); //wait 10 seconds before doing another one
-                        chunky.getServer().getConsoleSender().sendMessage("...That was nice sleep, ready to work again!");
-                    }
-                    catch (InterruptedException e)
-                    {
-                        stop(cancelled);
-                    }
                 working.release();
                 printUpdate(world, chunk.getX(), chunk.getZ());
             });
