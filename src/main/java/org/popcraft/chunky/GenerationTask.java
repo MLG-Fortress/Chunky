@@ -100,16 +100,6 @@ public class GenerationTask implements Runnable {
                 printUpdate(world, chunkCoord.x, chunkCoord.z);
                 continue;
             }
-            if (!fast)
-                try
-                {
-                    Thread.sleep(10000L); //wait 10 seconds before doing another one
-                }
-                catch (InterruptedException e)
-                {
-                    stop(cancelled);
-                    break;
-                }
             try {
                 working.acquire();
             } catch (InterruptedException e) {
@@ -117,6 +107,15 @@ public class GenerationTask implements Runnable {
                 break;
             }
             PaperLib.getChunkAtAsync(world, chunkCoord.x, chunkCoord.z).thenAccept(chunk -> {
+                if (!fast)
+                    try
+                    {
+                        Thread.sleep(10000L); //wait 10 seconds before doing another one
+                    }
+                    catch (InterruptedException e)
+                    {
+                        stop(cancelled);
+                    }
                 working.release();
                 printUpdate(world, chunk.getX(), chunk.getZ());
             });
