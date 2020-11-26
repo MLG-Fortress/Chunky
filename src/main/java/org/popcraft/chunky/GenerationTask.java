@@ -119,6 +119,7 @@ public class GenerationTask implements Runnable {
                 }
             PaperLib.getChunkAtAsync(world, chunkCoord.x, chunkCoord.z).thenAccept(chunk -> {
                 working.release();
+                chunky.getServer().getConsoleSender().sendMessage("Queued unload of x" + chunkCoord.x + " z" + chunkCoord.z + " is " + world.unloadChunkRequest(chunkCoord.x, chunkCoord.z));
                 printUpdate(world, chunk.getX(), chunk.getZ());
             });
         }
